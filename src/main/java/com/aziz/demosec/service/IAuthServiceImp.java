@@ -15,8 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
@@ -63,15 +62,12 @@ public class IAuthServiceImp implements IAuthService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(req.email());
 
-        // Add role to extra claims
-        Map<String, Object> extraClaims = new HashMap<>();
         String role = userDetails.getAuthorities().stream()
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
                 .orElse("ROLE_VISITOR");
-        extraClaims.put("role", role);
 
-        String token = jwtService.generateToken(extraClaims, userDetails);
+        String token = jwtService.generateToken(userDetails);
 
         return new AuthResponse(token, userDetails.getUsername(), role);
     }

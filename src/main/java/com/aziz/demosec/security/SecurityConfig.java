@@ -52,6 +52,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/doctor/**").hasRole("DOCTOR")
+                        .requestMatchers("/clinic/**").hasRole("CLINIC")
+                        .requestMatchers("/pharmacist/**").hasRole("PHARMACIST")
+                        .requestMatchers("/laboratory/**").hasRole("LABORATORY")
+                        .requestMatchers("/nutritionist/**").hasRole("NUTRITIONIST")
+                        .requestMatchers("/visitor/**").hasRole("VISITOR")
+                        .requestMatchers("/patient/**").hasRole("PATIENT")
+                        .requestMatchers("/home-care/**").hasRole("HOME_CARE_PROVIDER")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
